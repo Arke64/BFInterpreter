@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(CONFIG_PATH)\VC Executable.props" />
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{CDC7CC5F-5EB0-431A-AECF-D74E191490DA}</ProjectGuid>
-  </PropertyGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Hello World.txt" />
-    <Text Include="Mandlebrot.txt" />
-    <Text Include="ROT13.txt" />
-  </ItemGroup>
+
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(CONFIG_PATH)\VC Console.props" />
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{CDC7CC5F-5EB0-431A-AECF-D74E191490DA}</ProjectGuid>
+	</PropertyGroup>
+	<ItemGroup>
+		<ClCompile Include="Main.cpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<Text Include="Hello World.txt" />
+		<Text Include="Mandlebrot.txt" />
+		<Text Include="ROT13.txt" />
+	</ItemGroup>
 </Project>
