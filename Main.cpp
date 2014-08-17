@@ -37,12 +37,12 @@ class bf_interpreter {
 	word find_run(word start_index);
 	word find_matched(word start_index);
 
-public:
-	bf_interpreter(string filename);
+	public:
+		bf_interpreter(string filename);
 
-	void parse();
-	void print(string filename);
-	void run();
+		void parse();
+		void print(string filename);
+		void run();
 };
 
 bf_interpreter::bf_interpreter(string filename) {
@@ -171,6 +171,7 @@ void bf_interpreter::parse() {
 
 		this->program.push_back(instr);
 	}
+
 	for (word i = 0; i < this->program.size(); i++) {
 		switch (this->program[i].op) {
 			case instruction::opcode::branch_if_zero:
