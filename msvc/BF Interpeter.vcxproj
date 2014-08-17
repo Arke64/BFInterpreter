@@ -6,11 +6,11 @@
 		<ProjectGuid>{CDC7CC5F-5EB0-431A-AECF-D74E191490DA}</ProjectGuid>
 	</PropertyGroup>
 	<ItemGroup>
-		<ClCompile Include="Main.cpp" />
+		<ClCompile Include="..\src\Main.cpp" />
 	</ItemGroup>
 	<ItemGroup>
-		<Text Include="Hello World.txt" />
-		<Text Include="Mandlebrot.txt" />
-		<Text Include="ROT13.txt" />
+		<Text Include="..\examples\Hello World.txt" />
+		<Text Include="..\examples\Mandlebrot.txt" />
+		<Text Include="..\examples\ROT13.txt" />
 	</ItemGroup>
 </Project>

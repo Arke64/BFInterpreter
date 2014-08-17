@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="..\examples\ROT13.txt">
+      <Filter>examples</Filter>
+    </Text>
+    <Text Include="..\examples\Mandlebrot.txt">
+      <Filter>examples</Filter>
+    </Text>
+    <Text Include="..\examples\Hello World.txt">
+      <Filter>examples</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{070c166a-99f4-48f4-adcd-d3f11d1e4188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples">
+      <UniqueIdentifier>{04666fc4-fbeb-4424-b778-a19afa3784e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
