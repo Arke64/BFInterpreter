@@ -1,11 +1,10 @@
-#include <ArkeIndustries.CPPUtilities/Common.h>
-
 #include <iostream>
 #include <fstream>
 #include <memory>
 #include <string>
 #include <chrono>
 #include <vector>
+#include <cstdint>
 
 using namespace std;
 
@@ -23,19 +22,19 @@ class bf_interpreter {
 		};
 
 		opcode op;
-		sword data1;
-		sword data2;
+		int data1;
+		int data2;
 	};
 
-	unique_ptr<uint8[]> memory;
-	unique_ptr<uint8[]> raw_program;
+	unique_ptr<uint8_t[]> memory;
+	unique_ptr<uint8_t[]> raw_program;
 	vector<instruction> program;
-	word raw_size;
-	word ip;
-	word dp;
+	size_t raw_size;
+	size_t ip;
+	size_t dp;
 
-	word find_run(word start_index);
-	word find_matched(word start_index);
+	size_t find_run(size_t start_index);
+	size_t find_matched(size_t start_index);
 
 	public:
 		bf_interpreter(string filename);
@@ -48,12 +47,12 @@ class bf_interpreter {
 bf_interpreter::bf_interpreter(string filename) {
 	ifstream file(filename, ios::ate | ios::binary);
 
-	this->raw_size = static_cast<word>(file.tellg());
+	this->raw_size = static_cast<size_t>(file.tellg());
 	this->ip = 0;
 	this->dp = 0;
 
-	this->raw_program = make_unique<uint8[]>(this->raw_size);
-	this->memory = make_unique<uint8[]>(65536);
+	this->raw_program = make_unique<uint8_t[]>(this->raw_size);
+	this->memory = make_unique<uint8_t[]>(65536);
 
 	file.seekg(ios::beg);
 	file.read(reinterpret_cast<char*>(this->raw_program.get()), this->raw_size);
@@ -79,9 +78,9 @@ void bf_interpreter::print(string filename) {
 	}
 }
 
-word bf_interpreter::find_run(word start_index) {
+size_t bf_interpreter::find_run(size_t start_index) {
 	auto character = this->raw_program[start_index];
-	word count = 0;
+	size_t count = 0;
 
 	while (start_index < this->raw_size && this->raw_program[start_index++] == character)
 		count++;
@@ -89,9 +88,9 @@ word bf_interpreter::find_run(word start_index) {
 	return count;
 }
 
-word bf_interpreter::find_matched(word start_index) {
-	word needed = 1;
-	sword direction = this->program[start_index].op == instruction::opcode::branch_if_zero ? 1 : -1;
+size_t bf_interpreter::find_matched(size_t start_index) {
+	size_t needed = 1;
+	auto direction = this->program[start_index].op == instruction::opcode::branch_if_zero ? 1 : -1;
 
 	while (needed) {
 		start_index += direction;
@@ -106,7 +105,7 @@ word bf_interpreter::find_matched(word start_index) {
 }
 
 void bf_interpreter::parse() {
-	for (word i = 0; i < this->raw_size; i++) {
+	for (size_t i = 0; i < this->raw_size; i++) {
 		instruction instr;
 
 		instr.data1 = 0;
@@ -172,7 +171,7 @@ void bf_interpreter::parse() {
 		this->program.push_back(instr);
 	}
 
-	for (word i = 0; i < this->program.size(); i++) {
+	for (size_t i = 0; i < this->program.size(); i++) {
 		switch (this->program[i].op) {
 			case instruction::opcode::branch_if_zero:
 				if (i + 2 < this->program.size() && this->program[i + 1].op == instruction::opcode::add_to_cell && this->program[i + 1].data1 % 2 == 0 && this->program[i + 2].op == instruction::opcode::branch_if_nonzero) {
@@ -204,7 +203,7 @@ void bf_interpreter::parse() {
 		}
 	}
 
-	for (word i = 0; i < this->program.size(); i++) {
+	for (size_t i = 0; i < this->program.size(); i++) {
 		switch (this->program[i].op) {
 			case instruction::opcode::branch_if_zero:
 			case instruction::opcode::branch_if_nonzero:
@@ -221,14 +220,14 @@ void bf_interpreter::run() {
 
 		switch (instr.op) {
 			case instruction::opcode::add_to_dp: this->dp += instr.data1; break;
-			case instruction::opcode::add_to_cell: this->memory[this->dp] += static_cast<uint8>(instr.data1); break;
+			case instruction::opcode::add_to_cell: this->memory[this->dp] += static_cast<uint8_t>(instr.data1); break;
 			case instruction::opcode::output: cout << this->memory[this->dp]; break;
 			case instruction::opcode::input: cin >> this->memory[this->dp]; break;
-			case instruction::opcode::store: this->memory[this->dp] = static_cast<uint8>(instr.data1); break;
+			case instruction::opcode::store: this->memory[this->dp] = static_cast<uint8_t>(instr.data1); break;
 
 			case instruction::opcode::add_cells:
-				this->memory[this->dp + instr.data1] += static_cast<uint8>(instr.data2 * this->memory[this->dp]);
-			
+				this->memory[this->dp + instr.data1] += static_cast<uint8_t>(instr.data2 * this->memory[this->dp]);
+
 				break;
 
 			case instruction::opcode::branch_if_zero:
@@ -247,7 +246,7 @@ void bf_interpreter::run() {
 }
 
 int main() {
-	bf_interpreter bf("Mandlebrot.txt");
+	bf_interpreter bf("Hello World.txt");
 	bf.parse();
 	bf.print("Output.txt");
 
